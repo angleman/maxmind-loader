@@ -18,6 +18,8 @@ maxloader(callback);
 
 maxloader({
 	license: 'MAXMIND_LICENSE', // for paid data
+	day:     'tuesday',         // day of the week to load for paid subscription
+	edition: 132,               // paid subscription edition
 	dest:    './'               // destination_folder_or_filename
 }, callback);
 ```
@@ -30,6 +32,19 @@ var maxloader = require('maxmind-loader');
 maxloader(function() {
 	console.log('GeoLiteCity.dat.gz loaded');
 });
+
+
+// paid subscription
+
+var options = {license: 'MAXMIND_LICENSE'};
+
+maxloader(options, function(error, response) {
+	if (error) {
+		console.log(error);				// error encountered
+	} else {
+		console.log(response.headers);	// load successful
+	}
+})
 ```
 
 ## License: MIT
