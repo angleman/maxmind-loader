@@ -2,7 +2,6 @@
 
 Get maxmind paid and lite geoip data updates
 
-
 ## Install
 
 ```
