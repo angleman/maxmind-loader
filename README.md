@@ -10,22 +10,24 @@ npm install maxmind-loader
 
 ## Usage
 
-```
+```javascript
 var maxloader = require('maxmind-loader');
 
 maxloader(callback);
 
+// example showing default values
 maxloader({
-	license: 'MAXMIND_LICENSE', // for paid data
-	day:     'tuesday',         // day of the week to load for paid subscription
-	edition: 132,               // paid subscription edition
-	dest:    './'               // destination_folder_or_filename
+	license: undefined, // maxmind license string for paid data otherwise free version loaded
+	day:     'tuesday', // day of the week to load for paid subscription
+	extract: true,      // extract compressed files
+	edition: 132,       // paid subscription edition
+	dest:    './'       // destination_folder_or_filename
 }, callback);
 ```
 
 ## Examples
 
-```
+```javascript
 var maxloader = require('maxmind-loader');
 
 maxloader(function() {
