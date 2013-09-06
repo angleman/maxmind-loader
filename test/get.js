@@ -9,8 +9,9 @@ describe('load free', function() {
 
         var flag = false;
         beforeEach(function(done){
-            maxloader({dest: '/tmp/'}, function() {
-                flag = true;
+            this.timeout(2 * 60 * 1000); // 2 minutes
+            maxloader({dest: '/tmp/'}, function(error, response) {
+                flag = (error) ? error : true;
                 done(); // complete the async beforeEach
             });
 
