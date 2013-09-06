@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "date-utils": "~1.2.14",
-    "wgetjs": "~0.1.6"
+    "wgetjs": "~0.1.7"
   },
   "devDependencies": {
      "grunt": "0.4.x",
