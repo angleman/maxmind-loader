@@ -1,0 +1,39 @@
+{
+  "name": "wgetjs",
+  "version": "0.1.1", 
+  "description": "Get maxmind paid and lite geoip data updates",
+  "main": "maxmind-loader.js",
+  "scripts": {
+    "test": "mocha -R list test/*.js",
+    "TESTS.md": "mocha -R markdown test/*.js > TESTS.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angleman/maxmind-loader.git"
+  },
+  "keywords": [
+    "maxmind",
+    "lite",
+    "subscription",
+    "paid",
+    "download"
+  ],
+  "author": "angleman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angleman/maxmind-loader/issues"
+  },
+  "engines" : { 
+    "node" : ">=0.8.0" 
+  },
+  "dependencies": {
+    "date-utils": "~1.2.14",
+    "wgetjs": "~0.1.6"
+  },
+  "devDependencies": {
+     "grunt": "0.4.x",
+     "grunt-bump": "0.0.x",
+     "mocha": "~1.12.0",
+     "should": "~1.2.2"
+   }
+}
