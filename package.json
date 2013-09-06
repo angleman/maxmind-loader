@@ -1,6 +1,6 @@
 {
   "name": "wgetjs",
-  "version": "0.1.1", 
+  "version": "0.1.2", 
   "description": "Get maxmind paid and lite geoip data updates",
   "main": "maxmind-loader.js",
   "scripts": {
