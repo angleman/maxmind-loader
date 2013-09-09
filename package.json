@@ -27,13 +27,15 @@
     "node" : ">=0.8.0" 
   },
   "dependencies": {
+    "untar":"~0.2.4",
+    "compress-buffer": "~1.2.0",
     "date-utils": "~1.2.14",
-    "wgetjs": "~0.1.7"
+    "wgetjs":     "~0.2.2"
   },
   "devDependencies": {
-     "grunt": "0.4.x",
+     "grunt":      "0.4.x",
      "grunt-bump": "0.0.x",
-     "mocha": "~1.12.0",
-     "should": "~1.2.2"
+     "mocha":      "~1.12.0",
+     "should":     "~1.2.2"
    }
 }
