@@ -19,13 +19,13 @@ maxloader(callback);
 maxloader({
 	license: undefined, // maxmind license string for paid data otherwise free version loaded
 	day:     'tuesday', // day of the week to load for paid subscription
-	extract: true,      // extract compressed files
 	edition: 132,       // paid subscription edition
+	extract: true,      // extract compressed files
 	dest:    './'       // destination_folder_or_filename
 }, callback);
 ```
 
-## Examples
+## Free Geo Data Example
 
 ```javascript
 var maxmind   = require('maxmind')
@@ -34,10 +34,11 @@ var maxmind   = require('maxmind')
 maxloader(function() {
 	maxmind.init('GeoLiteCity.dat');
 });
+```
 
+## Paid Geo Data Example
 
-// paid subscription
-
+```
 var options = { license: 'MAXMIND_LICENSE' };
 
 maxloader(options, function(error, response) {
