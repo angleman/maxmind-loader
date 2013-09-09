@@ -15,7 +15,7 @@ var maxloader = require('maxmind-loader');
 
 maxloader(callback);
 
-// example showing default values
+// default values shown
 maxloader({
 	license: undefined, // maxmind license string for paid data otherwise free version loaded
 	day:     'tuesday', // day of the week to load for paid subscription
@@ -28,22 +28,23 @@ maxloader({
 ## Examples
 
 ```javascript
-var maxloader = require('maxmind-loader');
+var maxmind   = require('maxmind')
+  , maxloader = require('maxmind-loader');
 
 maxloader(function() {
-	console.log('GeoLiteCity.dat.gz loaded');
+	maxmind.init('GeoLiteCity.dat');
 });
 
 
 // paid subscription
 
-var options = {license: 'MAXMIND_LICENSE'};
+var options = { license: 'MAXMIND_LICENSE' };
 
 maxloader(options, function(error, response) {
 	if (error) {
 		console.log(error);				// error encountered
 	} else {
-		console.log(response.headers);	// load successful
+		maxmind.init('GeoIPCity.dat', { memoryCache: true });
 	}
 })
 ```
