@@ -12,7 +12,7 @@ describe('load free', function() {
             this.timeout(15 * 60 * 1000); // allow test to run for 15 minutes
             maxloader({
                 dest: '/tmp/'
-            }, function(error, response) {
+            }, function(error, datapath) {
                 flag = (error) ? error : true;
                 done(); // complete the async beforeEach
             });
