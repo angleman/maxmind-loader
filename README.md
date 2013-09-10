@@ -31,8 +31,8 @@ maxloader({
 var maxmind   = require('maxmind')
   , maxloader = require('maxmind-loader');
 
-maxloader(function() {
-	maxmind.init('GeoLiteCity.dat');
+maxloader(function(error, datapath) {
+	maxmind.init(datapath); // intialize with GeoLiteCity.dat
 });
 ```
 
@@ -41,11 +41,11 @@ maxloader(function() {
 ```
 var options = { license: 'MAXMIND_LICENSE' };
 
-maxloader(options, function(error, response) {
+maxloader(options, function(error, datapath) {
 	if (error) {
 		console.log(error);				// error encountered
 	} else {
-		maxmind.init('GeoIPCity.dat', { memoryCache: true });
+		maxmind.init(datapath, { memoryCache: true });
 	}
 })
 ```
