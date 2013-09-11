@@ -33,8 +33,10 @@
     "wgetjs":     "~0.2.2"
   },
   "devDependencies": {
-     "grunt":      "0.4.x",
-     "grunt-bump": "0.0.x",
+     "license-md": "~0.1.12",
+     "grunt":      "~0.4.1",
+     "grunt-bump": "~0.0.11",
+     "grunt-license": "~0.1.4",
      "mocha":      "~1.12.0",
      "should":     "~1.2.2"
    }
