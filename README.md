@@ -51,3 +51,8 @@ maxloader(options, function(error, datapath) {
 ```
 
 ## License: MIT
+
+Dependencies:
+
+[![date-utils](http://badgr.co/mit/date-utils.png?bg=%23339e00 "date-utils@1.2.14")](http://github.com/JerrySievert/node-date-utils) [![wgetjs](http://badgr.co/mit/wgetjs.png?bg=%23339e00 "wgetjs@0.2.2")](https://github.com/angleman/wgetjs) [![untar](http://badgr.co/mit/untar.png?bg=%23339e00 "untar@0.2.4")](https://github.com/jkroso/untar)
+[![compress-buffer](http://badgr.co/mit*/compress-buffer.png?bg=%23339e00 "compress-buffer@1.2.0")](http://github.com/egorfine/node-compress-buffer) 
