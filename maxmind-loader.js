@@ -2,7 +2,7 @@
 var fs         = require('fs')
   , wgetjs     = require('wgetjs')                     // angleman/wgetjs
   , uncompress = require('compress-buffer').uncompress // egorfine/node-compress-buffer, used because decompress doesn't support just .gz
-  , untar      = require('untar')                      // package/untar
+  , tar        = require('tar')                        // isaacs/node-tar
   , path       = require('path')
 ;
 
@@ -69,12 +69,18 @@ function maxloader(options, callback) {
 				var paidFile = outFile.replace('.tar', '').replace('download_new', '');
 				if (outFile != paidFile) {
 				    var tarsrc = fs.createReadStream(outFile);
-				    var dir    = path.dirname(path.normalize(outFile));
-					var result = untar(dir, tarsrc);
-					result.node(function(err, value){
+				    var outdir = path.dirname(outFile);
+
+					fs.createReadStream(tarsrc)
+					  .pipe(tar.Extract({ path: outdir}))
+					  .on("error", function (err) {
+					  	callback(err);
+					  })
+					  .on("end", function () {
 						var resultFile = outFile.replace('.tar', '').replace('download_new', 'GeoIPCity');
-						callback(err, resultFile);
-					})
+						callback(undefined, resultFile);
+					  })
+					;
 				} else {
 					callback(err, outFile);
 				}
