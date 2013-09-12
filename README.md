@@ -21,7 +21,7 @@ maxloader({
 	day:     'tuesday', // day of the week to load for paid subscription
 	edition: 132,       // paid subscription edition
 	extract: true,      // extract compressed files
-	dest:    './'       // destination_folder_or_filename
+	dest:    '/tmp/'    // destination_folder_or_filename
 }, callback);
 ```
 

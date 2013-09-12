@@ -17,6 +17,7 @@ function maxloader(options, callback) {
 	};
 	options         = options         || {};
 	callback    	= callback        || options.callback || function() {};
+	options.dest    = options.dest    || '/tmp/';
 	options.timeout = options.timeout || 15 * 60 * 1000; // 15 minutes instead of 2 second default
 	if (typeof options.extract === 'undefined') {
 		options.extract = true;
