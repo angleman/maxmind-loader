@@ -18,13 +18,10 @@ if (fs.existsSync(geofilegz)) {
 describe('maxmind-loader', function() {
 
     describe('cleanup test data', function() {
-      it(geofile + " should not exist", function(){  
+      it(geofile + " and " + geofilegz + "should not exist", function(){  
         var exists = (fs.existsSync(geofile));
         exists.should.not.be.equal(true);
-      }); 
-
-      it(geofilegz + " should not exist", function(){  
-        var exists = (fs.existsSync(geofilegz));
+        exists = (fs.existsSync(geofilegz));
         exists.should.not.be.equal(true);
       }); 
     });
@@ -50,23 +47,17 @@ describe('maxmind-loader', function() {
             flag.should.equal(true);  
         }); 
 
-        it("with " + geofilegz + " existing", function(){  
+        it(geofilegz + " be above 9MB", function(){  
             flag = fs.existsSync(geofilegz);  
             flag.should.equal(true);  
-        }); 
-
-        it(geofilegz + " be above 9MB", function(){  
             fstat = fs.statSync(geofilegz);
             size  = fstat.size;
             size.should.be.above(9001000); // at least 9MB, assumes maxmind doesn't shrink the free data set much
         }); 
 
-        it("with " + geofile + " existing", function(){  
+        it(geofile + " be above 14MB", function(){  
             flag = fs.existsSync(geofile);  
             flag.should.equal(true);  
-        }); 
-
-        it(geofile + " be above 14MB", function(){  
             fstat = fs.statSync(geofile);
             size  = fstat.size;
             size.should.be.above(14001000); // at least 14MB, assumes maxmind doesn't shrink the free data set much
