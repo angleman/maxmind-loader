@@ -47,6 +47,26 @@ function maxloader(options, callback) {
 		wgetjs(options, callback);
 	}
 
+
+	function untar(tarsrc, outdir, outFile, attempt) {
+		attempt = attempt || 0;
+		attempt++;
+		fs.createReadStream(tarsrc)
+		  .pipe(tar.Extract({ path: outdir}))
+		  .on("error", function (err) {
+			if (attempt < 4) { // sometimes untar fails for an unknown reason, therefore try 3 times before failing
+			  untar(tarsrc, outdir, outFile, attempt);
+			} else {
+			  callback(err);
+			}
+		  })
+		  .on("end", function () {
+			var resultFile = outFile.replace('.tar', '').replace('download_new', 'GeoIPCity');
+			callback(undefined, resultFile);
+		  })
+		;
+	}
+
 	function extract(error, response, body) {
 		if (error) {
 			console.log(error);
@@ -71,16 +91,7 @@ function maxloader(options, callback) {
 				    var tarsrc = fs.createReadStream(outFile);
 				    var outdir = path.dirname(outFile);
 
-					fs.createReadStream(tarsrc)
-					  .pipe(tar.Extract({ path: outdir}))
-					  .on("error", function (err) {
-					  	callback(err);
-					  })
-					  .on("end", function () {
-						var resultFile = outFile.replace('.tar', '').replace('download_new', 'GeoIPCity');
-						callback(undefined, resultFile);
-					  })
-					;
+				    untar(tarsrc, outdir, outFile, attempt);
 				} else {
 					callback(err, outFile);
 				}
