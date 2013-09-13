@@ -1,11 +1,10 @@
                  require('date-utils');                // JerrySievert/node-date-utils
 var fs         = require('fs')
-  , wgetjs     = require('wgetjs')                     // angleman/wgetjs
+  , wget       = require('wgetjs')                     // angleman/wgetjs
   , uncompress = require('compress-buffer').uncompress // egorfine/node-compress-buffer, used because decompress doesn't support just .gz
   , tar        = require('tar')                        // isaacs/node-tar
   , path       = require('path')
 ;
-
 
 
 
@@ -42,60 +41,76 @@ function maxloader(options, callback) {
 	options.url = (options.license) ? source : 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz';
 
 	if (options.extract) {
-		wgetjs(options, extract);
+		wget(options, extract);
 	} else {
-		wgetjs(options, callback);
+		wget(options, callback);
 	}
 
 
-	function untar(tarsrc, outdir, outFile, attempt) {
-		attempt = attempt || 0;
-		attempt++;
+	function untar(tarsrc, outdir, outFile) {
 		fs.createReadStream(tarsrc)
 		  .pipe(tar.Extract({ path: outdir}))
 		  .on("error", function (err) {
-			if (attempt < 4) { // sometimes untar fails for an unknown reason, therefore try 3 times before failing
-			  untar(tarsrc, outdir, outFile, attempt);
-			} else {
 			  callback(err);
-			}
 		  })
 		  .on("end", function () {
-			var resultFile = outFile.replace('.tar', '').replace('download_new', 'GeoIPCity');
-			callback(undefined, resultFile);
+			validateDatFile(outFile);
+			callback(null, outFile);
 		  })
 		;
 	}
 
-	function extract(error, response, body) {
-		if (error) {
-			console.log(error);
-			callback(error, response, body);
-		} else if (!response || !response.headers) {
-			console.log('missing response headers');
-			error = new Error('missing response headers');
-			callback(error, response, body);
-		} else if (response.headers['content-length'] < 1000000) { // to small?
-			console.log('content-length: ' + response.headers['content-length']);
-			error = new Error('content-length < 1000000: ' + response.headers['content-length']);
-			callback(error, response, body);
-		}
-		options.dry = true; // dry run, doesn't retrieve a remote file but does generate the destination filename
-		wgetjs(options, function(err, res, data) { // get the destination filename
-			var outFile      = data.dest.replace('.gz', '');
-			var rawData      = fs.readFileSync(data.dest); // todo: find async version
-			var uncompressed = uncompress(rawData);
-			fs.writeFile(outFile, uncompressed, function(err) {
-				var paidFile = outFile.replace('.tar', '').replace('download_new', '');
-				if (outFile != paidFile) {
-				    var tarsrc = fs.createReadStream(outFile);
-				    var outdir = path.dirname(outFile);
 
-				    untar(tarsrc, outdir, outFile, attempt);
-				} else {
-					callback(err, outFile);
+	function returnError(message) {
+		message = "maxmind-loader error: " + message;
+		console.log(message);
+		callback(new Error(message));
+	}
+
+
+	function validateDatFile(testFile, size) {
+		size   = size || 14001000; // should be at least 14MB  
+		ok = false;
+		if (fs.existsSync(testFile)) {
+			var fstat = fs.statSync(testFile);
+			ok = (fstat.size > size); 
+		}
+		if (!ok) {
+			returnError("Invalid " + gzFile + ", needs to exist and be at least " + Math.round(size / 1000000) + 'MB');
+		}
+	}
+
+
+	function validateGzFile(testFile) {
+		validateDatFile(testFile, 9001000); // should be at least 9MB
+	}
+
+
+	function extract(err, data) {
+		if (err) {
+			callback(err);
+		} else if (!data || !data.filepath) {
+			returnError('missing data.filepath')
+		}
+
+		var gzFile       = data.filepath;
+		validateGzFile(gzFile);                       // return error if it's doesn't exist or isn't at least 9MB
+
+		var outFile      = gzFile.replace('.gz', '');
+		var rawData      = fs.readFileSync(gzFile); 
+		var uncompressed = uncompress(rawData);       // todo: find async version
+		fs.writeFile(outFile, uncompressed, function(err) {
+			if (err) {
+				callback(err);
+			} else {
+				var paidFile   = outFile.replace('.tar', '').replace('download_new', '');
+				if (outFile != paidFile) { // paid data
+				    var outdir = path.dirname(outFile);
+				    untar(outFile, outdir, paidFile, attempt);
+				} else { // free data
+					callback(null, outFile);
 				}
-			});
+			}
 		});
 	}
 }

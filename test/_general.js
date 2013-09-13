@@ -36,8 +36,8 @@ describe('maxmind-loader', function() {
             this.timeout(15 * 60 * 1000); // allow test to run for 15 minutes
             maxloader({
                 dest: '/tmp/'
-            }, function(error, datapath) {
-                flag = (!error);
+            }, function(err) {
+                flag = (!err);
                 done(); // complete the async beforeEach
             });
 
@@ -47,7 +47,7 @@ describe('maxmind-loader', function() {
             flag.should.equal(true);  
         }); 
 
-        it(geofilegz + " be above 9MB", function(){  
+        it(geofilegz + " be above 9MB", function(){
             flag = fs.existsSync(geofilegz);  
             flag.should.equal(true);  
             fstat = fs.statSync(geofilegz);

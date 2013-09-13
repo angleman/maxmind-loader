@@ -21,8 +21,14 @@ maxloader({
 	day:     'tuesday', // day of the week to load for paid subscription
 	edition: 132,       // paid subscription edition
 	extract: true,      // extract compressed files
-	dest:    '/tmp/'    // destination_folder_or_filename
-}, callback);
+	dest:    '/tmp/'    // should load /tmp/GeoCityLite.dat, async operation
+}, function (err, filepath) {
+	if (err) {
+		console.log(err);
+	} else {
+		console.log(filepath, 'loaded');
+	}
+});
 ```
 
 ## Free Geo Data Example
@@ -31,21 +37,21 @@ maxloader({
 var maxmind   = require('maxmind')
   , maxloader = require('maxmind-loader');
 
-maxloader(function(error, datapath) {
-	maxmind.init(datapath); // intialize with GeoLiteCity.dat
+maxloader(function(error, filepath) {
+	maxmind.init(filepath); // intialize with /tmp/GeoLiteCity.dat
 });
 ```
 
 ## Paid Geo Data Example
 
-```
+```javascript
 var options = { license: 'MAXMIND_LICENSE' };
 
-maxloader(options, function(error, datapath) {
-	if (error) {
-		console.log(error);				// error encountered
+maxloader(options, function(err, filepath) {
+	if (err) {
+		console.log(err);
 	} else {
-		maxmind.init(datapath, { memoryCache: true });
+		maxmind.init(filepath, { memoryCache: true });
 	}
 })
 ```
