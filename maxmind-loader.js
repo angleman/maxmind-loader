@@ -90,8 +90,10 @@ function maxloader(options, callback) {
 	function extract(err, data) {
 		if (err) {
 			callback(err);
+			return;
 		} else if (!data || !data.filepath) {
-			returnError('missing data.filepath')
+			returnError('missing data.filepath');
+			return;
 		}
 
 		var gzFile       = data.filepath;
