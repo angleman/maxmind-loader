@@ -1,6 +1,6 @@
 {
   "name": "maxmind-loader",
-  "version": "0.5.7", 
+  "version": "0.5.7",
   "description": "Get maxmind paid and lite geoip data updates",
   "main": "maxmind-loader.js",
   "scripts": {
@@ -23,21 +23,21 @@
   "bugs": {
     "url": "https://github.com/angleman/maxmind-loader/issues"
   },
-  "engines" : { 
-    "node" : ">=0.8.0" 
+  "engines": {
+    "node": ">=0.8.0"
   },
   "dependencies": {
-    "tar":"~0.1.18",
+    "tar": "~0.1.18",
     "compress-buffer": "~1.2.0",
     "date-utils": "~1.2.14",
-    "wgetjs":     "~0.3.1"
+    "wgetjs": "~0.3.3"
   },
   "devDependencies": {
-     "license-md": "~0.2.5",
-     "grunt":      "~0.4.1",
-     "grunt-bump": "~0.0.11",
-     "grunt-license": "~0.1.4",
-     "mocha":      "~1.12.0",
-     "should":     "~1.2.2"
-   }
+    "license-md": "~0.2.5",
+    "grunt": "~0.4.1",
+    "grunt-bump": "~0.0.11",
+    "grunt-license": "~0.1.4",
+    "mocha": "~1.12.0",
+    "should": "~1.2.2"
+  }
 }
