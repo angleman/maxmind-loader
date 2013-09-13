@@ -2,13 +2,13 @@
 
 Get maxmind paid and lite geoip data updates
 
-## Install
+## Install :hammer:
 
 ```
 npm install maxmind-loader
 ```
 
-## Usage
+## Usage :wrench:
 
 ```javascript
 var maxloader = require('maxmind-loader');
@@ -31,7 +31,7 @@ maxloader({
 });
 ```
 
-## Free Geo Data Example
+## Free Geo Data Example :wrench:
 
 ```javascript
 var maxmind   = require('maxmind')
@@ -42,7 +42,7 @@ maxloader(function(error, filepath) {
 });
 ```
 
-## Paid Geo Data Example
+## Paid Geo Data Example :wrench:
 
 ```javascript
 var options = { license: 'MAXMIND_LICENSE' };
@@ -56,7 +56,7 @@ maxloader(options, function(err, filepath) {
 })
 ```
 
-## License: MIT
+## License: MIT :unlocked:
 
 Dependencies:
 
