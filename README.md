@@ -56,7 +56,7 @@ maxloader(options, function(err, filepath) {
 })
 ```
 
-## License: MIT :unlocked:
+## License: MIT :unlock:
 
 Dependencies:
 
