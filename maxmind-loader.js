@@ -40,12 +40,6 @@ function maxloader(options, callback) {
 	;
 	options.url = (options.license) ? source : 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz';
 
-	if (options.extract) {
-		wget(options, extract);
-	} else {
-		wget(options, callback);
-	}
-
 
 	function untar(tarsrc, outdir, outFile) {
 		fs.createReadStream(tarsrc)
@@ -87,7 +81,7 @@ function maxloader(options, callback) {
 	}
 
 
-	function extract(err, data) {
+	function extractData(err, data) {
 		if (err) {
 			callback(err);
 			return;
@@ -100,22 +94,38 @@ function maxloader(options, callback) {
 		validateGzFile(gzFile);                       // return error if it's doesn't exist or isn't at least 9MB
 
 		var outFile      = gzFile.replace('.gz', '');
-		var rawData      = fs.readFileSync(gzFile); 
+		var rawData      = fs.readFileSync(gzFile);
 		var uncompressed = uncompress(rawData);       // todo: find async version
+		var timerid      = null;
+
+		function finishUp() {
+			clearTimeout(timerid);
+			var paidFile   = outFile.replace('.tar', '').replace('download_new', '');
+			if (outFile != paidFile) { // paid data
+			    var outdir = path.dirname(outFile);
+			    untar(outFile, outdir, paidFile, attempt);
+			} else { // free data
+				callback(null, outFile);
+			}
+		}
+
 		fs.writeFile(outFile, uncompressed, function(err) {
 			if (err) {
 				callback(err);
 			} else {
-				var paidFile   = outFile.replace('.tar', '').replace('download_new', '');
-				if (outFile != paidFile) { // paid data
-				    var outdir = path.dirname(outFile);
-				    untar(outFile, outdir, paidFile, attempt);
-				} else { // free data
-					callback(null, outFile);
-				}
+				timerid = setTimeout(finishUp, 1);
 			}
 		});
 	}
+
+
+	if (options.extract) {
+		wget(options, extractData);
+	} else {
+		wget(options, callback);
+	}
 }
+
+
 
 module.exports = maxloader;
