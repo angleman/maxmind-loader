@@ -74,9 +74,9 @@ function maxloader(options, callback) {
 		if (fs.existsSync(testFile)) {
 			var fstat = fs.statSync(testFile);
 			ok = (fstat.size > size); 
-		}
-		if (!ok) {
-			returnError("Invalid " + testFile + ", needs to exist and be at least " + Math.round(size / 1000000) + 'MB');
+			returnError("Invalid " + testFile + ", needs to be at least " + Math.round(size / 1000000) + 'MB');
+		} else {
+			returnError(testFile + " not found");
 		}
 	}
 
