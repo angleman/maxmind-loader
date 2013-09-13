@@ -1,4 +1,5 @@
 var should    = require('should')
+  , maxloader = require('../maxmind-loader.js')
   , fs        = require('fs')
   , geofile   = '/tmp/GeoLiteCity.dat'
   , geofilegz = geofile + '.gz'
@@ -17,7 +18,6 @@ describe('maxmind-loader', function() {
     }
 
     var exists;
-    var maxloader;
 
     describe('cleanup test data', function() {
 
@@ -39,9 +39,7 @@ describe('maxmind-loader', function() {
         var flag = false;
         var size, fstat;
         beforeEach(function(done){
-            this.timeout(15 * 60 * 1000); // allow test to run for 15 minutes
-            maxloader = require('../maxmind-loader.js');
-
+            this.timeout(1 * 60 * 1000); // allow test to run for 1 minutes
             maxloader({
                 dest: '/tmp/'
             }, function(err) {
