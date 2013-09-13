@@ -62,5 +62,5 @@ Dependencies:
 
 [![tar](http://badgr.co/tar/BSD.png?bg=%23339e00 "tar@0.1.18 Berkeley Software Distribution")](https://github.com/isaacs/node-tar)
 [![date-utils](http://badgr.co/date-utils/MIT.png?bg=%23339e00 "date-utils@1.2.14 Massachusetts Institute of Technology")](http://github.com/JerrySievert/node-date-utils)
-[![wgetjs](http://badgr.co/wgetjs/MIT.png?bg=%23339e00 "wgetjs@0.2.2 Massachusetts Institute of Technology")](https://github.com/angleman/wgetjs)
+[![wgetjs](http://badgr.co/wgetjs/MIT.png?bg=%23339e00 "wgetjs@0.3.1 Massachusetts Institute of Technology")](https://github.com/angleman/wgetjs)
 [![compress-buffer](http://badgr.co/compress-buffer/MIT*.png?bg=%23339e00 "compress-buffer@1.2.0 Massachusetts Institute of Technology (text scan guess)")](http://github.com/egorfine/node-compress-buffer)
