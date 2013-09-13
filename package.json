@@ -1,6 +1,6 @@
 {
   "name": "maxmind-loader",
-  "version": "0.5.6", 
+  "version": "0.5.7", 
   "description": "Get maxmind paid and lite geoip data updates",
   "main": "maxmind-loader.js",
   "scripts": {
