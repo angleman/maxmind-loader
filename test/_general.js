@@ -51,32 +51,29 @@ describe('maxmind-loader', function() {
 
         it("load without errors", function(){    
             flag.should.equal(true);  
-        }); 
+            console.log('load ok');
 
-        it(geofilegz + " exist", function(){
             flag = fs.existsSync(geofilegz);  
             flag.should.equal(true);  
-        }); 
 
-        it(geofilegz + " be above 9MB", function(){
-            flag = fs.existsSync(geofilegz);  
-            flag.should.equal(true);  
+            console.log(geofilegz,'exists');
+
             fstat = fs.statSync(geofilegz);
             size  = fstat.size;
             size.should.be.above(9001000); // at least 9MB, assumes maxmind doesn't shrink the free data set much
-        }); 
 
-        it(geofile + " exist", function(){  
+            console.log(geofilegz,'size ok at' + size);
+
             flag = fs.existsSync(geofile);  
             flag.should.equal(true);  
-        }); 
 
-        it(geofile + " be above 14MB", function(){  
-            flag = fs.existsSync(geofile);  
-            flag.should.equal(true);  
+            console.log(geofile,'exists');
+
             fstat = fs.statSync(geofile);
             size  = fstat.size;
             size.should.be.above(14001000); // at least 14MB, assumes maxmind doesn't shrink the free data set much
+
+            console.log(geofile,'size ok at' + size);
         }); 
 
     });
