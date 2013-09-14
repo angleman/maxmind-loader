@@ -6,7 +6,7 @@ var fs         = require('fs')
   , path       = require('path')
 ;
 
-
+// todo: consider using grimen/node-document-compressor-deflate
 
 function maxloader(options, callback) {
 

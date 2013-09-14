@@ -33,7 +33,7 @@
     "wgetjs": "~0.3.3"
   },
   "devDependencies": {
-    "license-md": "~0.2.5",
+    "license-md": "~0.3.6",
     "grunt": "~0.4.1",
     "grunt-bump": "~0.0.11",
     "grunt-license": "~0.1.4",
