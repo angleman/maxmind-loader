@@ -15,7 +15,6 @@ function maxloader(options, callback) {
 		options  = {};
 	};
 	options         = options         || {};
-	callback    	= callback        || options.callback || function() {};
 	options.dest    = options.dest    || '/tmp/';
 	options.timeout = options.timeout || 15 * 60 * 1000; // 15 minutes instead of 2 second default
 	if (typeof options.extract === 'undefined') {
@@ -58,8 +57,12 @@ function maxloader(options, callback) {
 
 	function returnError(message) {
 		message = "maxmind-loader error: " + message;
-		console.log(message);
-		callback(new Error(message));
+		var err = new Error(message);
+		if (callback) {
+			callback(err);
+		} else {
+			throw err;
+		}
 	}
 
 
@@ -69,7 +72,7 @@ function maxloader(options, callback) {
 		if (fs.existsSync(testFile)) {
 			var fstat = fs.statSync(testFile);
 			if (fstat.size < size) {
-				returnError(testFile +  "is " + fstat.size + ", needs to be at least " + Math.round(size / 1000000) + 'MB');
+				returnError(testFile +  " is " + fstat.size + ", needs to be at least " + Math.round(size / 1000000) + 'MB');
 			} else {
 				ok = true;
 			}
