@@ -15,7 +15,7 @@ function maxloader(options, callback) {
 		options  = {};
 	};
 	options         = options         || {};
-	options.dest    = options.dest    || '/tmp/';
+ 	options.dest    = options.dest    || '/tmp/';
 	options.timeout = options.timeout || 15 * 60 * 1000; // 15 minutes instead of 2 second default
 	if (typeof options.extract === 'undefined') {
 		options.extract = true;
@@ -44,11 +44,13 @@ function maxloader(options, callback) {
 		fs.createReadStream(tarsrc)
 		  .pipe(tar.Extract({ path: outdir}))
 		  .on("error", function (err) {
-			  callback(err);
+			  returnError(err);
 		  })
 		  .on("end", function () {
 			if (validateDatFile(outFile)) {
-				callback(null, outFile);
+				if (callback) {
+					callback(null, outFile);
+				}
 			}
 		  })
 		;
@@ -56,8 +58,10 @@ function maxloader(options, callback) {
 
 
 	function returnError(message) {
-		message = "maxmind-loader error: " + message;
-		var err = new Error(message);
+		if (typeof message == 'string') { // error from this layer?
+			message = "maxmind-loader error: " + message;
+			var err = new Error(message);
+		}
 		if (callback) {
 			callback(err);
 		} else {
@@ -90,7 +94,7 @@ function maxloader(options, callback) {
 
 	function extractData(err, data) {
 		if (err) {
-			callback(err);
+			returnError(err);
 			return;
 		} else if (!data || !data.filepath) {
 			returnError('missing data.filepath');
@@ -114,14 +118,16 @@ function maxloader(options, callback) {
 			    untar(outFile, outdir, paidFile, attempt);
 			} else { // free data
 				if (validateDatFile(outFile)) {
-					callback(null, outFile);
+					if (callback) {
+						callback(null, outFile);
+					}
 				}
 			}
 		}
 
 		fs.writeFile(outFile, uncompressed, function(err) {
 			if (err) {
-				callback(err);
+				returnError(err);
 			} else {
 				timerid = setTimeout(finishUp, 1);
 			}
