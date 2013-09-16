@@ -48,8 +48,9 @@ function maxloader(options, callback) {
 			  callback(err);
 		  })
 		  .on("end", function () {
-			validateDatFile(outFile);
-			callback(null, outFile);
+			if (validateDatFile(outFile)) {
+				callback(null, outFile);
+			}
 		  })
 		;
 	}
@@ -64,20 +65,23 @@ function maxloader(options, callback) {
 
 	function validateDatFile(testFile, size) {
 		size   = size || 14001000; // should be at least 14MB  
-		ok = false;
+		var ok = false;
 		if (fs.existsSync(testFile)) {
 			var fstat = fs.statSync(testFile);
 			if (fstat.size < size) {
 				returnError(testFile +  "is " + fstat.size + ", needs to be at least " + Math.round(size / 1000000) + 'MB');
+			} else {
+				ok = true;
 			}
 		} else {
 			returnError(testFile + " not found");
 		}
+		return ok
 	}
 
 
 	function validateGzFile(testFile) {
-		validateDatFile(testFile, 9001000); // should be at least 9MB
+		return validateDatFile(testFile, 9001000); // should be at least 9MB
 	}
 
 
@@ -91,8 +95,9 @@ function maxloader(options, callback) {
 		}
 
 		var gzFile       = data.filepath;
-		validateGzFile(gzFile);                       // return error if it's doesn't exist or isn't at least 9MB
-
+		if (!validateGzFile(gzFile)) {                // return error if it's doesn't exist or isn't at least 9MB
+			return;
+		}
 		var outFile      = gzFile.replace('.gz', '');
 		var rawData      = fs.readFileSync(gzFile);
 		var uncompressed = uncompress(rawData);       // todo: find async version
@@ -105,7 +110,9 @@ function maxloader(options, callback) {
 			    var outdir = path.dirname(outFile);
 			    untar(outFile, outdir, paidFile, attempt);
 			} else { // free data
-				callback(null, outFile);
+				if (validateDatFile(outFile)) {
+					callback(null, outFile);
+				}
 			}
 		}
 
