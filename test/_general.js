@@ -43,7 +43,10 @@ describe('maxmind-loader', function() {
             maxloader({
                 dest: '/tmp/'
             }, function(err) {
-                flag = (!err);
+                if (err) {
+                    console.log(err);
+                }
+                flag = true;
                 done(); // complete the async beforeEach
             });
 
@@ -62,7 +65,7 @@ describe('maxmind-loader', function() {
             size  = fstat.size;
             size.should.be.above(9001000); // at least 9MB, assumes maxmind doesn't shrink the free data set much
 
-            console.log(geofilegz,'size ok at' + size);
+            console.log(geofilegz,'size ok at ' + size);
 
             flag = fs.existsSync(geofile);  
             flag.should.equal(true);  
@@ -73,7 +76,7 @@ describe('maxmind-loader', function() {
             size  = fstat.size;
             size.should.be.above(14001000); // at least 14MB, assumes maxmind doesn't shrink the free data set much
 
-            console.log(geofile,'size ok at' + size);
+            console.log(geofile,'size ok at ' + size);
         }); 
 
     });
