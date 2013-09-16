@@ -60,12 +60,12 @@ function maxloader(options, callback) {
 	function returnError(message) {
 		if (typeof message == 'string') { // error from this layer?
 			message = "maxmind-loader error: " + message;
-			var err = new Error(message);
+			message = new Error(message);
 		}
 		if (callback) {
-			callback(err);
+			callback(message);
 		} else {
-			throw err;
+			throw message;
 		}
 	}
 
